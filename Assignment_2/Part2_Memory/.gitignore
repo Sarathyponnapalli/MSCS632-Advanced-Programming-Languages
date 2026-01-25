@@ -1,0 +1,18 @@
+# Compiled C++
+*.exe
+*.o
+*.out
+
+# Python
+__pycache__/
+*.pyc
+
+# Java
+*.class
+
+# Rust target folder
+/target
+
+# OS files
+.DS_Store
+Thumbs.db
