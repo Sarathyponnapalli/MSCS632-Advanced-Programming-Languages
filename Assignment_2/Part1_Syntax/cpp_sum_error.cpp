@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+int calculateSum(int arr[], int size)
+{
+    int total = 0 // <--- Error: Missing semicolon
+        for (int i = 0; i < size; i++)
+    {
+        total += arr[i];
+    }
+    return total;
+}
+
+int main()
+{
+    int numbers[] = {1, 2, 3, 4, 5};
+    int size = sizeof(numbers) / sizeof(numbers[0]);
+    int result = calculateSum(numbers, size);
+    // Error 2 : Missing closing quotation marks in string literal
+    cout << "Sum in C++: << result << endl;
+        return 0;
+}

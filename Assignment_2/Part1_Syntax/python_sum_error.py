@@ -1,13 +1,13 @@
  # Python : Calculate the sum of an array
-def calculate_sum(arr) :
+def calculate_sum(arr):  # <--- Syntax Error: Missing colon
     total = 0
     for num in arr:
-    total += num
+    total += num # <--- Indentation Error
     return total
  
 numbers = [1, 2, 3, 4, 5]
-result = calculate_sum (numbers)
-print("Sumin Python :", result)
+result = calculate_sum(numbers)
+print("Sum in Python:", result)
  
 # Expected Output: SyntaxError: expected ':'
 # The above code will raise a SyntaxError because the function definition 
