@@ -1,0 +1,184 @@
+# ═══════════════════════════════════════════════════════════════
+#  .gitignore — Employee Schedule Manager
+#  Covers: C++ / CMake / Qt  +  Python / PySide6 / PyInstaller
+# ═══════════════════════════════════════════════════════════════
+
+
+# ───────────────────────────────────────────────
+#  C++ / CMake / Qt
+# ───────────────────────────────────────────────
+
+# CMake build tree
+build/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# Qt AUTOMOC / AUTOUIC / AUTORCC generated files
+*_autogen/
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+*.moc
+
+# Compiled binaries and libraries
+*.exe
+*.out
+*.app
+*.dll
+*.so
+*.so.*
+*.dylib
+*.a
+*.lib
+*.pdb
+*.ilk
+*.exp
+*.map
+
+# Object files
+*.o
+*.obj
+
+# Qt Creator project files (keep .pro / .pri if you use them,
+# but ignore the user-specific IDE files)
+*.user
+*.user.*
+*.qbs.user
+*.qbs.user.*
+CMakeLists.txt.user
+
+# Qt windeployqt / macdeployqt output (lives inside build/)
+# already covered by build/ above
+
+# VS / MSVC
+.vs/
+*.vcxproj.user
+*.VC.db
+*.VC.opendb
+x64/
+x86/
+Release/
+Debug/
+
+
+# ───────────────────────────────────────────────
+#  Python
+# ───────────────────────────────────────────────
+
+# Byte-compiled / optimised
+!**/__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+dist/
+*.egg-info/
+*.egg
+MANIFEST
+.eggs/
+wheels/
+
+# PyInstaller
+*.spec
+# Keep scripts/build_python.sh but ignore generated spec if auto-created
+# dist/ and build/ already listed above
+
+# pytest / unittest
+.pytest_cache/
+.tox/
+.nox/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+nosetests.xml
+
+# mypy / pyright / ruff
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# pyenv / pipenv / poetry
+.python-version
+Pipfile.lock
+poetry.lock
+
+
+# ───────────────────────────────────────────────
+#  OS / Editor
+# ───────────────────────────────────────────────
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# Linux
+*~
+
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# JetBrains (CLion, PyCharm)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+
+# ───────────────────────────────────────────────
+#  Misc
+# ───────────────────────────────────────────────
+
+# Log files
+*.log
+logs/
+
+# Temp / scratch
+tmp/
+temp/
+scratch/
