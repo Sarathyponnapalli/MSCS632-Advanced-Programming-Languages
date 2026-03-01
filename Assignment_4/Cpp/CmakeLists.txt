@@ -1,0 +1,104 @@
+cmake_minimum_required(VERSION 3.22)
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Cpp/CMakeLists.txt
+#  Builds two targets:
+#    SchedulerLib   — static library containing all reusable logic
+#    SchedulerApp   — Qt6 GUI executable that links SchedulerLib
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── 1. Backend static library ─────────────────────────────────────────────────
+#
+# Contains the scheduling algorithm and data-model.
+# No Q_OBJECT classes here — pure logic, no MOC needed on these files.
+# (employee.h / demo_data.h / scheduler.h are plain structs/classes)
+#
+
+# ── 1. Backend / Model static library ────────────────────────────────────────
+add_library(SchedulerLib STATIC
+    # Implementation files — repositories, model, and reusable widgets
+    src/scheduler.cpp
+
+    # Q_OBJECT headers — must be listed so AUTOMOC runs moc on them
+    include/scheduler.h
+    include/demo_data.h
+    include/employee.h
+)
+
+target_include_directories(SchedulerLib
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        # AUTOUIC writes ui_main_window.h into the build tree;
+        # expose that directory so SchedulerApp can #include it.
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+target_link_libraries(SchedulerLib
+    PUBLIC
+        Qt6::Widgets
+)
+
+# ── 2. GUI Executable ─────────────────────────────────────────────────────────
+#
+# qt_add_executable (not plain add_executable) is required on Windows with
+# MinGW/Qt because Qt provides its own WinMain entry point via
+# Qt6EntryPoint.  Using add_executable causes an unresolved __imp___argc
+# symbol at link time.  qt_add_executable handles this automatically.
+qt_add_executable(SchedulerApp
+    # Source files — windows and dialogs
+    src/main.cpp
+    src/main_window.cpp
+    src/scheduler.cpp
+
+    # Q_OBJECT header — AUTOMOC generates moc_main_window.cpp from this
+    include/main_window.h
+
+    # Plain headers (no Q_OBJECT — listed for IDE visibility only)
+    include/employee.h
+    include/scheduler.h
+    include/demo_data.h
+
+    # .ui files — AUTOUIC generates ui_main_window.h / ui_add_expense_dialog.h
+    ${CMAKE_SOURCE_DIR}/shared/ui/main_window.ui
+)
+
+
+target_link_libraries(SchedulerApp
+    PRIVATE
+        SchedulerLib
+)
+
+# ── Platform settings ─────────────────────────────────────────────────────────
+
+# Keep WIN32_EXECUTABLE FALSE so the console window is visible during
+# development; flip to TRUE for a pure-GUI release build.
+set_target_properties(SchedulerApp PROPERTIES
+    WIN32_EXECUTABLE FALSE
+)
+
+if(APPLE)
+    set_target_properties(SchedulerApp PROPERTIES
+        MACOSX_BUNDLE TRUE
+    )
+endif()
+
+
+# ── Configuration summary ─────────────────────────────────────────────────────
+message(STATUS "")
+message(STATUS "── Expense Tracker C++ ─────────────────────────────────────────")
+message(STATUS "  Build type  : ${CMAKE_BUILD_TYPE}")
+message(STATUS "  C++ standard: C++${CMAKE_CXX_STANDARD}")
+message(STATUS "  Qt version  : ${Qt6_VERSION}")
+message(STATUS "  Binary dir  : ${CMAKE_BINARY_DIR}")
+message(STATUS "")
+message(STATUS "  Targets:")
+message(STATUS "    SchedulerLib  (static library)")
+message(STATUS "    SchedulerApp     (GUI executable)")
+message(STATUS "")
+message(STATUS "  To build:")
+message(STATUS "    cmake --build . --config Release --parallel")
+message(STATUS "")
+message(STATUS "  To run (Windows):")
+message(STATUS "    .\\build\\cpp\\SchedulerApp.exe")
+message(STATUS "────────────────────────────────────────────────────────────────")
+message(STATUS "")
