@@ -122,10 +122,10 @@ python python/main.py --cli    # CLI demo
 
 ```bash
 # Install build tools
-pip install -r python/requirements-dev.txt
+pip install -r python/requirements.txt
 
 # Build (from project root)
-bash scripts/build_python.sh
+bash ./build_executable.sh
 
 # Run the bundle
 dist/SchedulerApp/SchedulerApp          # Linux / macOS
