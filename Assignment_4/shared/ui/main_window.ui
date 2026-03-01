@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    shared/ui/main_window.ui
+    ════════════════════════════════════════════════════════════════
+    Shared Qt Designer file consumed by BOTH:
+      • Python  →  PySide6.QtUiTools.QUiLoader  (runtime load)
+      • C++     →  AUTOUIC generates ui_main_window.h  (compile-time)
+
+    FIX: contentsMargins now uses the correct <number> sub-elements
+    (left/top/right/bottom) instead of <rect> (x/y/width/height).
+    Qt 6.x uic rejects the <rect> form, producing:
+        error: no matching function for call to
+        'QVBoxLayout::setContentsMargins(QRect)'
+
+    Open for visual editing:
+        designer shared/ui/main_window.ui
+    ════════════════════════════════════════════════════════════════
+-->
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>1150</width><height>800</height></rect>
+  </property>
+  <property name="windowTitle">
+   <string>Employee Schedule Manager</string>
+  </property>
+
+  <!-- ═══════════════  CENTRAL WIDGET  ═══════════════ -->
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="rootLayout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>0</number></property>
+    <property name="topMargin"><number>0</number></property>
+    <property name="rightMargin"><number>0</number></property>
+    <property name="bottomMargin"><number>0</number></property>
+
+    <!-- ── BANNER ─────────────────────────────────── -->
+    <item>
+     <widget class="QLabel" name="lblBanner">
+      <property name="text"><string>🗓   Employee Schedule Manager</string></property>
+      <property name="alignment"><set>Qt::AlignCenter</set></property>
+      <property name="minimumHeight"><number>58</number></property>
+     </widget>
+    </item>
+
+    <!-- ── TAB WIDGET ────────────────────────────── -->
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex"><number>0</number></property>
+      <property name="tabPosition"><enum>QTabWidget::North</enum></property>
+
+      <!-- ══════ TAB 1 – INPUT ══════ -->
+      <widget class="QWidget" name="tabInput">
+       <attribute name="title"><string>  Employee Input  </string></attribute>
+       <layout class="QHBoxLayout" name="inputOuter">
+        <property name="leftMargin"><number>14</number></property>
+        <property name="topMargin"><number>14</number></property>
+        <property name="rightMargin"><number>14</number></property>
+        <property name="bottomMargin"><number>14</number></property>
+        <property name="spacing"><number>14</number></property>
+
+        <!-- LEFT: Add-Employee form -->
+        <item>
+         <widget class="QGroupBox" name="gbAddEmployee">
+          <property name="title"><string>Add Employee</string></property>
+          <property name="maximumWidth"><number>320</number></property>
+          <layout class="QVBoxLayout" name="addEmpVBox">
+           <property name="spacing"><number>10</number></property>
+
+           <item>
+            <widget class="QLabel" name="lblName">
+             <property name="text"><string>Full Name:</string></property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="leEmployeeName">
+             <property name="placeholderText"><string>e.g. Aarav Sharma</string></property>
+            </widget>
+           </item>
+
+           <item>
+            <widget class="QLabel" name="lblPrefNote">
+             <property name="text">
+              <string>Drag to rank shifts — top row = most preferred:</string>
+             </property>
+             <property name="wordWrap"><bool>true</bool></property>
+            </widget>
+           </item>
+
+           <!-- Drag-to-rank list -->
+           <item>
+            <widget class="QListWidget" name="lwPreferences">
+             <property name="dragDropMode">
+              <enum>QAbstractItemView::InternalMove</enum>
+             </property>
+             <property name="defaultDropAction">
+              <enum>Qt::MoveAction</enum>
+             </property>
+             <property name="minimumHeight"><number>100</number></property>
+             <property name="maximumHeight"><number>100</number></property>
+             <property name="toolTip">
+              <string>Drag rows to reorder shift preference (top = 1st choice)</string>
+             </property>
+             <item>
+              <property name="text"><string>🌅  morning</string></property>
+             </item>
+             <item>
+              <property name="text"><string>☀️  afternoon</string></property>
+             </item>
+             <item>
+              <property name="text"><string>🌙  evening</string></property>
+             </item>
+            </widget>
+           </item>
+
+           <item>
+            <widget class="QPushButton" name="btnAddEmployee">
+             <property name="text"><string>➕  Add Employee</string></property>
+             <property name="minimumHeight"><number>36</number></property>
+            </widget>
+           </item>
+
+           <item>
+            <widget class="QFrame" name="sep1">
+             <property name="frameShape"><enum>QFrame::HLine</enum></property>
+             <property name="frameShadow"><enum>QFrame::Sunken</enum></property>
+            </widget>
+           </item>
+
+           <item>
+            <widget class="QPushButton" name="btnLoadDemo">
+             <property name="text"><string>🔄  Load Indian Demo Roster</string></property>
+             <property name="minimumHeight"><number>36</number></property>
+             <property name="toolTip">
+              <string>Loads 10 pre-built employees with Indian names</string>
+             </property>
+            </widget>
+           </item>
+
+           <item>
+            <widget class="QPushButton" name="btnClearAll">
+             <property name="text"><string>🗑  Clear All Employees</string></property>
+             <property name="minimumHeight"><number>36</number></property>
+            </widget>
+           </item>
+
+           <item>
+            <spacer>
+             <property name="orientation"><enum>Qt::Vertical</enum></property>
+             <property name="sizeHint" stdset="0">
+              <size><width>20</width><height>40</height></size>
+             </property>
+            </spacer>
+           </item>
+
+          </layout>
+         </widget>
+        </item>
+
+        <!-- RIGHT: Registered-employees table -->
+        <item>
+         <widget class="QGroupBox" name="gbEmployeeList">
+          <property name="title"><string>Registered Employees</string></property>
+          <layout class="QVBoxLayout" name="empListVBox">
+
+           <item>
+            <widget class="QTableWidget" name="tblEmployees">
+             <property name="selectionBehavior">
+              <enum>QAbstractItemView::SelectRows</enum>
+             </property>
+             <property name="editTriggers">
+              <set>QAbstractItemView::NoEditTriggers</set>
+             </property>
+             <property name="alternatingRowColors"><bool>true</bool></property>
+             <column><property name="text"><string>Name</string></property></column>
+             <column><property name="text"><string>1st Choice</string></property></column>
+             <column><property name="text"><string>2nd Choice</string></property></column>
+             <column><property name="text"><string>3rd Choice</string></property></column>
+            </widget>
+           </item>
+
+           <!-- Action row below table -->
+           <item>
+            <layout class="QHBoxLayout" name="empActionRow">
+             <item>
+              <widget class="QPushButton" name="btnRemoveEmployee">
+               <property name="text"><string>➖  Remove Selected</string></property>
+               <property name="minimumHeight"><number>34</number></property>
+              </widget>
+             </item>
+             <item>
+              <spacer>
+               <property name="orientation"><enum>Qt::Horizontal</enum></property>
+               <property name="sizeHint" stdset="0">
+                <size><width>40</width><height>20</height></size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btnBuildSchedule">
+               <property name="text"><string>⚙  Build Schedule</string></property>
+               <property name="minimumHeight"><number>42</number></property>
+               <property name="minimumWidth"><number>160</number></property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+
+          </layout>
+         </widget>
+        </item>
+
+       </layout>
+      </widget>
+      <!-- END TAB 1 -->
+
+      <!-- ══════ TAB 2 – SCHEDULE ══════ -->
+      <widget class="QWidget" name="tabSchedule">
+       <attribute name="title"><string>  Weekly Schedule  </string></attribute>
+       <layout class="QVBoxLayout" name="schedVBox">
+        <property name="leftMargin"><number>14</number></property>
+        <property name="topMargin"><number>14</number></property>
+        <property name="rightMargin"><number>14</number></property>
+        <property name="bottomMargin"><number>14</number></property>
+
+        <item>
+         <widget class="QTableWidget" name="tblSchedule">
+          <property name="selectionMode">
+           <enum>QAbstractItemView::NoSelection</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors"><bool>true</bool></property>
+          <property name="wordWrap"><bool>true</bool></property>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QGroupBox" name="gbWarnings">
+          <property name="title"><string>Staffing Warnings</string></property>
+          <property name="maximumHeight"><number>100</number></property>
+          <layout class="QVBoxLayout" name="warnVBox">
+           <item>
+            <widget class="QTextEdit" name="teWarnings">
+             <property name="readOnly"><bool>true</bool></property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+
+       </layout>
+      </widget>
+      <!-- END TAB 2 -->
+
+      <!-- ══════ TAB 3 – SUMMARY ══════ -->
+      <widget class="QWidget" name="tabSummary">
+       <attribute name="title"><string>  Employee Summary  </string></attribute>
+       <layout class="QVBoxLayout" name="summaryVBox">
+        <property name="leftMargin"><number>14</number></property>
+        <property name="topMargin"><number>14</number></property>
+        <property name="rightMargin"><number>14</number></property>
+        <property name="bottomMargin"><number>14</number></property>
+
+        <item>
+         <widget class="QTableWidget" name="tblSummary">
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="editTriggers">
+           <set>QAbstractItemView::NoEditTriggers</set>
+          </property>
+          <property name="alternatingRowColors"><bool>true</bool></property>
+          <!-- Columns: Name | Days | Preferences | Mon..Sun (7) -->
+          <column><property name="text"><string>Employee</string></property></column>
+          <column><property name="text"><string>Days</string></property></column>
+          <column><property name="text"><string>Preferences</string></property></column>
+          <column><property name="text"><string>Mon</string></property></column>
+          <column><property name="text"><string>Tue</string></property></column>
+          <column><property name="text"><string>Wed</string></property></column>
+          <column><property name="text"><string>Thu</string></property></column>
+          <column><property name="text"><string>Fri</string></property></column>
+          <column><property name="text"><string>Sat</string></property></column>
+          <column><property name="text"><string>Sun</string></property></column>
+         </widget>
+        </item>
+
+       </layout>
+      </widget>
+      <!-- END TAB 3 -->
+
+     </widget>
+    </item>
+
+    <!-- ── STATUS STRIP ─────────────────── -->
+    <item>
+     <widget class="QLabel" name="lblStatus">
+      <property name="text">
+       <string>Ready — add employees and press ⚙ Build Schedule.</string>
+      </property>
+      <property name="minimumHeight"><number>28</number></property>
+      <property name="alignment">
+       <set>Qt::AlignVCenter|Qt::AlignLeft</set>
+      </property>
+     </widget>
+    </item>
+
+   </layout>
+  </widget>
+  <!-- end centralwidget -->
+
+  <!-- ── MENU BAR ─────────────────────── -->
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect><x>0</x><y>0</y><width>1150</width><height>28</height></rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title"><string>File</string></property>
+    <addaction name="actionLoadDemo"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title"><string>Help</string></property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuHelp"/>
+  </widget>
+
+  <widget class="QStatusBar" name="statusbar"/>
+
+  <action name="actionLoadDemo">
+   <property name="text"><string>Load Demo Employees</string></property>
+   <property name="shortcut"><string>Ctrl+D</string></property>
+  </action>
+  <action name="actionExit">
+   <property name="text"><string>Exit</string></property>
+   <property name="shortcut"><string>Ctrl+Q</string></property>
+  </action>
+  <action name="actionAbout">
+   <property name="text"><string>About</string></property>
+   <property name="shortcut"><string>F1</string></property>
+  </action>
+
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
