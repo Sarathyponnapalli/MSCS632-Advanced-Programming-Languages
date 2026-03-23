@@ -1,0 +1,88 @@
+
+
+============================================================
+  RideShare System — Smalltalk OOP Demo
+    MSCS-632  Advanced Programming Languages
+    ============================================================
+    
+    ── 1. ENCAPSULATION ─────────────────────────────────────
+       Driver info (via getDriverInfo — encapsulated list):
+         Driver #1 | Alice Johnson | Rating: 4.9 stars | Trips: 2 | Earned: $42.58
+  [Standard] #1000  Peoria Station -> Caterpillar HQ  4.2 mi  $7.54
+    [Premium] #1004  Midway Airport -> The Loop  9.3 mi  $35.04
+             (includes $4.00 luxury surcharge)
+
+   Rider info (via viewRides — encapsulated list):
+     Rider #101 | Bob Chen | Trips: 2 | Spent: $17.240000000000002
+  [Standard] #1000  Peoria Station -> Caterpillar HQ  4.2 mi  $7.54
+    [Standard] #1003  Oak Park -> Wrigley Field  6.0 mi  $9.700000000000001
+
+── 2. INHERITANCE ───────────────────────────────────────
+   Class hierarchy:
+   Ride (abstract)
+     |-- StandardRide  fare = $2.50 + $1.20/mi
+     |-- PremiumRide   fare = $5.00 + $2.80/mi + $4.00
+     +-- SharedRide    fare = ($2.00 + $1.00/mi) / passengers
+
+   Each subclass inherits rideDetails from Ride,
+   then calls  super rideDetails  and adds its own output:
+  Rider #102 | Diana Park | Trips: 2 | Spent: $51.88
+  [Premium] #1001  Embassy Suites -> Civic Center  2.8 mi  $16.84
+             (includes $4.00 luxury surcharge)
+  [Premium] #1004  Midway Airport -> The Loop  9.3 mi  $35.04
+             (includes $4.00 luxury surcharge)
+             
+             ── 3. POLYMORPHISM ──────────────────────────────────────
+                Iterating  allRides  and calling  r fare  + rideDetails
+   on each — correct subclass method runs automatically:
+     
+  Ride pool (5 rides) — polymorphic dispatch:
+  [Standard] #1000  Peoria Station -> Caterpillar HQ  4.2 mi  $7.54
+  [Premium] #1001  Embassy Suites -> Civic Center  2.8 mi  $16.84
+             (includes $4.00 luxury surcharge)
+  [Shared] #1002  UIC Campus -> O'Hare Airport  11.5 mi  $3.38
+"Global garbage collection... done"
+             (4 passengers @ $3.38 each)
+  [Standard] #1003  Oak Park -> Wrigley Field  6.0 mi  $9.700000000000001
+  [Premium] #1004  Midway Airport -> The Loop  9.3 mi  $35.04
+             (includes $4.00 luxury surcharge)
+
+── SYSTEM SUMMARY ───────────────────────────────────────
+  Total trips    : 5
+  Total revenue : $72.5
+    Average fare  : $14.5
+  Total miles   : 33.8
+
+── ALL DRIVERS ──────────────────────────────────────────
+  Driver #1 | Alice Johnson | Rating: 4.9 stars | Trips: 2 | Earned: $42.58
+  [Standard] #1000  Peoria Station -> Caterpillar HQ  4.2 mi  $7.54
+  [Premium] #1004  Midway Airport -> The Loop  9.3 mi  $35.04
+             (includes $4.00 luxury surcharge)
+
+  Driver #2 | Carlos Rivera | Rating: 4.7 stars | Trips: 2 | Earned: $26.54
+  [Premium] #1001  Embassy Suites -> Civic Center  2.8 mi  $16.84
+             (includes $4.00 luxury surcharge)
+  [Standard] #1003  Oak Park -> Wrigley Field  6.0 mi  $9.700000000000001
+
+  Driver #3 | Priya Sharma | Rating: 4.8 stars | Trips: 1 | Earned: $3.38
+  [Shared] #1002  UIC Campus -> O'Hare Airport  11.5 mi  $3.38
+             (4 passengers @ $3.38 each)
+
+── ALL RIDERS ───────────────────────────────────────────
+  Rider #101 | Bob Chen | Trips: 2 | Spent: $17.240000000000002
+  [Standard] #1000  Peoria Station -> Caterpillar HQ  4.2 mi  $7.54
+  [Standard] #1003  Oak Park -> Wrigley Field  6.0 mi  $9.700000000000001
+
+  Rider #102 | Diana Park | Trips: 2 | Spent: $51.88
+  [Premium] #1001  Embassy Suites -> Civic Center  2.8 mi  $16.84
+             (includes $4.00 luxury surcharge)
+  [Premium] #1004  Midway Airport -> The Loop  9.3 mi  $35.04
+             (includes $4.00 luxury surcharge)
+
+  Rider #103 | Ethan Nguyen | Trips: 1 | Spent: $3.38
+  [Shared] #1002  UIC Campus -> O'Hare Airport  11.5 mi  $3.38
+             (4 passengers @ $3.38 each)
+
+============================================================
+  Done.
+============================================================
