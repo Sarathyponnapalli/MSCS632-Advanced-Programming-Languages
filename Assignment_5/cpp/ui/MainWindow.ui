@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect><x>0</x><y>0</y><width>1200</width><height>760</height></rect>
+  </property>
+  <property name="windowTitle">
+   <string>RideShare</string>
+  </property>
+  <property name="minimumSize">
+   <size><width>960</width><height>640</height></size>
+  </property>
+
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QHBoxLayout" name="rootLayout">
+    <property name="spacing"><number>0</number></property>
+    <property name="leftMargin"><number>0</number></property>
+    <property name="topMargin"><number>0</number></property>
+    <property name="rightMargin"><number>0</number></property>
+    <property name="bottomMargin"><number>0</number></property>
+
+    <item>
+     <widget class="QWidget" name="sidebar">
+      <property name="minimumWidth"><number>220</number></property>
+      <property name="maximumWidth"><number>220</number></property>
+      <layout class="QVBoxLayout" name="sidebarLayout">
+       <property name="spacing"><number>4</number></property>
+       <property name="leftMargin"><number>16</number></property>
+       <property name="topMargin"><number>24</number></property>
+       <property name="rightMargin"><number>16</number></property>
+       <property name="bottomMargin"><number>24</number></property>
+
+       <item>
+        <widget class="QLabel" name="logoLabel">
+         <property name="text"><string>RideShare</string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="logoSub">
+         <property name="text"><string>Ride Sharing System</string></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="sidebarDivider">
+         <property name="frameShape"><enum>QFrame::HLine</enum></property>
+         <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+         <property name="maximumHeight"><number>1</number></property>
+        </widget>
+       </item>
+
+       <item>
+        <widget class="QPushButton" name="navDashboard">
+         <property name="text"><string>  Dashboard</string></property>
+         <property name="minimumHeight"><number>40</number></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="navBook">
+         <property name="text"><string>  Book Ride</string></property>
+         <property name="minimumHeight"><number>40</number></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="navTrips">
+         <property name="text"><string>  Trips</string></property>
+         <property name="minimumHeight"><number>40</number></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="navDrivers">
+         <property name="text"><string>  Drivers</string></property>
+         <property name="minimumHeight"><number>40</number></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="navRiders">
+         <property name="text"><string>  Riders</string></property>
+         <property name="minimumHeight"><number>40</number></property>
+         <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+        </widget>
+       </item>
+
+       <item>
+        <spacer name="sidebarSpacer">
+         <property name="orientation"><enum>Qt::Vertical</enum></property>
+         <property name="sizeHint" stdset="0"><size><width>20</width><height>40</height></size></property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="versionLabel">
+         <property name="text"><string>v1.0 Release</string></property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+
+    <item>
+     <widget class="QWidget" name="mainArea">
+      <layout class="QVBoxLayout" name="mainAreaLayout">
+       <property name="spacing"><number>0</number></property>
+       <property name="leftMargin"><number>0</number></property>
+       <property name="topMargin"><number>0</number></property>
+       <property name="rightMargin"><number>0</number></property>
+       <property name="bottomMargin"><number>0</number></property>
+
+       <item>
+        <widget class="QWidget" name="topbar">
+         <property name="minimumHeight"><number>56</number></property>
+         <property name="maximumHeight"><number>56</number></property>
+         <layout class="QHBoxLayout" name="topbarLayout">
+          <property name="leftMargin"><number>28</number></property>
+          <property name="rightMargin"><number>28</number></property>
+          <property name="topMargin"><number>0</number></property>
+          <property name="bottomMargin"><number>0</number></property>
+          <property name="spacing"><number>12</number></property>
+          <item>
+           <widget class="QLabel" name="pageTitle">
+            <property name="text"><string>Dashboard</string></property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="topbarSpacer">
+            <property name="orientation"><enum>Qt::Horizontal</enum></property>
+            <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="statusChip">
+            <property name="text"><string>  Live  </string></property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+
+       <item>
+        <widget class="QStackedWidget" name="pageStack">
+
+         <widget class="QWidget" name="pageDashboard">
+          <layout class="QVBoxLayout" name="dashLayout">
+           <property name="leftMargin"><number>28</number></property>
+           <property name="topMargin"><number>24</number></property>
+           <property name="rightMargin"><number>28</number></property>
+           <property name="bottomMargin"><number>24</number></property>
+           <property name="spacing"><number>20</number></property>
+
+           <item>
+            <layout class="QHBoxLayout" name="metricsRow">
+             <property name="spacing"><number>14</number></property>
+
+             <item>
+              <widget class="QWidget" name="cardTotalRides">
+               <property name="minimumHeight"><number>90</number></property>
+               <property name="maximumHeight"><number>110</number></property>
+               <layout class="QVBoxLayout" name="cardTotalRidesLayout">
+                <property name="leftMargin"><number>20</number></property>
+                <property name="topMargin"><number>18</number></property>
+                <property name="rightMargin"><number>20</number></property>
+                <property name="bottomMargin"><number>18</number></property>
+                <property name="spacing"><number>6</number></property>
+                <item>
+                 <widget class="QLabel" name="lblTotalRidesLabel">
+                  <property name="text"><string>TOTAL TRIPS</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblTotalRides">
+                  <property name="text"><string>0</string></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+
+             <item>
+              <widget class="QWidget" name="cardRevenue">
+               <property name="minimumHeight"><number>90</number></property>
+               <property name="maximumHeight"><number>110</number></property>
+               <layout class="QVBoxLayout" name="cardRevenueLayout">
+                <property name="leftMargin"><number>20</number></property>
+                <property name="topMargin"><number>18</number></property>
+                <property name="rightMargin"><number>20</number></property>
+                <property name="bottomMargin"><number>18</number></property>
+                <property name="spacing"><number>6</number></property>
+                <item>
+                 <widget class="QLabel" name="lblRevenueLabel">
+                  <property name="text"><string>TOTAL REVENUE</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblRevenue">
+                  <property name="text"><string>$0.00</string></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+
+             <item>
+              <widget class="QWidget" name="cardAvgFare">
+               <property name="minimumHeight"><number>90</number></property>
+               <property name="maximumHeight"><number>110</number></property>
+               <layout class="QVBoxLayout" name="cardAvgFareLayout">
+                <property name="leftMargin"><number>20</number></property>
+                <property name="topMargin"><number>18</number></property>
+                <property name="rightMargin"><number>20</number></property>
+                <property name="bottomMargin"><number>18</number></property>
+                <property name="spacing"><number>6</number></property>
+                <item>
+                 <widget class="QLabel" name="lblAvgFareLabel">
+                  <property name="text"><string>AVG FARE</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblAvgFare">
+                  <property name="text"><string>$0.00</string></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+
+             <item>
+              <widget class="QWidget" name="cardMiles">
+               <property name="minimumHeight"><number>90</number></property>
+               <property name="maximumHeight"><number>110</number></property>
+               <layout class="QVBoxLayout" name="cardMilesLayout">
+                <property name="leftMargin"><number>20</number></property>
+                <property name="topMargin"><number>18</number></property>
+                <property name="rightMargin"><number>20</number></property>
+                <property name="bottomMargin"><number>18</number></property>
+                <property name="spacing"><number>6</number></property>
+                <item>
+                 <widget class="QLabel" name="lblMilesLabel">
+                  <property name="text"><string>TOTAL MILES</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblMiles">
+                  <property name="text"><string>0.0</string></property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+
+            </layout>
+           </item>
+
+           <item>
+            <widget class="QSplitter" name="dashSplitter">
+             <property name="orientation"><enum>Qt::Horizontal</enum></property>
+             <property name="handleWidth"><number>1</number></property>
+
+             <widget class="QWidget" name="cardRecentTrips">
+              <layout class="QVBoxLayout" name="recentTripsLayout">
+               <property name="leftMargin"><number>20</number></property>
+               <property name="topMargin"><number>18</number></property>
+               <property name="rightMargin"><number>20</number></property>
+               <property name="bottomMargin"><number>18</number></property>
+               <property name="spacing"><number>14</number></property>
+               <item>
+                <widget class="QLabel" name="recentTripsTitle">
+                 <property name="text"><string>Recent Trips</string></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="recentTripsDivider">
+                 <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                 <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                 <property name="maximumHeight"><number>1</number></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QListWidget" name="dashTripsList">
+                 <property name="spacing"><number>3</number></property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+
+             <widget class="QWidget" name="cardActivityLog">
+              <layout class="QVBoxLayout" name="activityLogLayout">
+               <property name="leftMargin"><number>20</number></property>
+               <property name="topMargin"><number>18</number></property>
+               <property name="rightMargin"><number>20</number></property>
+               <property name="bottomMargin"><number>18</number></property>
+               <property name="spacing"><number>14</number></property>
+               <item>
+                <widget class="QLabel" name="activityLogTitle">
+                 <property name="text"><string>Activity Log</string></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QFrame" name="activityLogDivider">
+                 <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                 <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                 <property name="maximumHeight"><number>1</number></property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QTextEdit" name="activityLog">
+                 <property name="readOnly"><bool>true</bool></property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+
+            </widget>
+           </item>
+
+          </layout>
+         </widget>
+
+         <widget class="QWidget" name="pageBook">
+          <layout class="QHBoxLayout" name="bookPageLayout">
+           <property name="leftMargin"><number>28</number></property>
+           <property name="topMargin"><number>24</number></property>
+           <property name="rightMargin"><number>28</number></property>
+           <property name="bottomMargin"><number>24</number></property>
+           <property name="spacing"><number>20</number></property>
+
+           <item>
+            <widget class="QWidget" name="bookFormCard">
+             <layout class="QVBoxLayout" name="bookFormLayout">
+              <property name="leftMargin"><number>24</number></property>
+              <property name="topMargin"><number>22</number></property>
+              <property name="rightMargin"><number>24</number></property>
+              <property name="bottomMargin"><number>22</number></property>
+              <property name="spacing"><number>16</number></property>
+
+              <item>
+               <widget class="QLabel" name="bookFormTitle">
+                <property name="text"><string>Request a Ride</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="bookFormDivider">
+                <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                <property name="maximumHeight"><number>1</number></property>
+               </widget>
+              </item>
+
+              <item>
+               <widget class="QLabel" name="rideTypeLabel">
+                <property name="text"><string>CHOOSE RIDE TYPE</string></property>
+               </widget>
+              </item>
+
+              <item>
+               <layout class="QHBoxLayout" name="typeButtonsRow">
+                <property name="spacing"><number>10</number></property>
+                <item>
+                 <widget class="QPushButton" name="btnStandard">
+                  <property name="text"><string>Standard&#xa;$1.20/mi</string></property>
+                  <property name="minimumHeight"><number>70</number></property>
+                  <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnPremium">
+                  <property name="text"><string>Premium&#xa;$2.80/mi</string></property>
+                  <property name="minimumHeight"><number>70</number></property>
+                  <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnShared">
+                  <property name="text"><string>Shared&#xa;Split fare</string></property>
+                  <property name="minimumHeight"><number>70</number></property>
+                  <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+
+              <item>
+               <layout class="QHBoxLayout" name="riderDriverRow">
+                <property name="spacing"><number>14</number></property>
+                <item>
+                 <layout class="QVBoxLayout" name="riderCol">
+                  <property name="spacing"><number>6</number></property>
+                  <item>
+                   <widget class="QLabel" name="riderLabel">
+                    <property name="text"><string>PASSENGER</string></property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="comboRider">
+                    <item><property name="text"><string>Bob Chen</string></property></item>
+                    <item><property name="text"><string>Diana Park</string></property></item>
+                    <item><property name="text"><string>Ethan Nguyen</string></property></item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="driverCol">
+                  <property name="spacing"><number>6</number></property>
+                  <item>
+                   <widget class="QLabel" name="driverLabel">
+                    <property name="text"><string>DRIVER</string></property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QComboBox" name="comboDriver">
+                    <item><property name="text"><string>Alice Johnson  4.9</string></property></item>
+                    <item><property name="text"><string>Carlos Rivera  4.7</string></property></item>
+                    <item><property name="text"><string>Priya Sharma  4.8</string></property></item>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+
+              <item>
+               <layout class="QVBoxLayout" name="pickupCol">
+                <property name="spacing"><number>6</number></property>
+                <item>
+                 <widget class="QLabel" name="pickupLabel">
+                  <property name="text"><string>PICKUP LOCATION</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="entryPickup">
+                  <property name="placeholderText"><string>Where are you?</string></property>
+                  <property name="minimumHeight"><number>42</number></property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+
+              <item>
+               <layout class="QVBoxLayout" name="dropoffCol">
+                <property name="spacing"><number>6</number></property>
+                <item>
+                 <widget class="QLabel" name="dropoffLabel">
+                  <property name="text"><string>DROPOFF LOCATION</string></property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="entryDropoff">
+                  <property name="placeholderText"><string>Where to?</string></property>
+                  <property name="minimumHeight"><number>42</number></property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+
+              <item>
+               <layout class="QHBoxLayout" name="distPaxRow">
+                <property name="spacing"><number>14</number></property>
+                <item>
+                 <layout class="QVBoxLayout" name="distCol">
+                  <property name="spacing"><number>6</number></property>
+                  <item>
+                   <widget class="QLabel" name="distLabel">
+                    <property name="text"><string>DISTANCE (miles)</string></property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLineEdit" name="entryDist">
+                    <property name="placeholderText"><string>e.g. 4.2</string></property>
+                    <property name="minimumHeight"><number>42</number></property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QWidget" name="paxWidget">
+                  <layout class="QVBoxLayout" name="paxCol">
+                   <property name="spacing"><number>6</number></property>
+                   <property name="leftMargin"><number>0</number></property>
+                   <property name="topMargin"><number>0</number></property>
+                   <property name="rightMargin"><number>0</number></property>
+                   <property name="bottomMargin"><number>0</number></property>
+                   <item>
+                    <widget class="QLabel" name="paxLabel">
+                     <property name="text"><string>PASSENGERS</string></property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="entryPax">
+                     <property name="text"><string>2</string></property>
+                     <property name="minimumHeight"><number>42</number></property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+
+              <item>
+               <widget class="QWidget" name="fareBox">
+                <layout class="QHBoxLayout" name="fareBoxLayout">
+                 <property name="leftMargin"><number>18</number></property>
+                 <property name="topMargin"><number>16</number></property>
+                 <property name="rightMargin"><number>18</number></property>
+                 <property name="bottomMargin"><number>16</number></property>
+                 <property name="spacing"><number>12</number></property>
+                 <item>
+                  <layout class="QVBoxLayout" name="fareTextCol">
+                   <property name="spacing"><number>4</number></property>
+                   <item>
+                    <widget class="QLabel" name="farePriceLabel">
+                     <property name="text"><string>ESTIMATED FARE</string></property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="lblFareFormula">
+                     <property name="text"><string>Enter distance to see fare</string></property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <spacer name="fareBoxSpacer">
+                   <property name="orientation"><enum>Qt::Horizontal</enum></property>
+                   <property name="sizeHint" stdset="0"><size><width>40</width><height>20</height></size></property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="lblFareAmount">
+                   <property name="text"><string>-</string></property>
+                   <property name="alignment"><set>AlignRight|AlignVCenter</set></property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+
+              <item>
+               <widget class="QPushButton" name="btnBook">
+                <property name="text"><string>Request Ride</string></property>
+                <property name="minimumHeight"><number>48</number></property>
+                <property name="cursor"><cursorShape>PointingHandCursor</cursorShape></property>
+               </widget>
+              </item>
+
+              <item>
+               <spacer name="bookFormSpacer">
+                <property name="orientation"><enum>Qt::Vertical</enum></property>
+                <property name="sizeHint" stdset="0"><size><width>20</width><height>20</height></size></property>
+               </spacer>
+              </item>
+
+             </layout>
+            </widget>
+           </item>
+
+           <item>
+            <widget class="QWidget" name="bookSideCard">
+             <property name="minimumWidth"><number>340</number></property>
+             <property name="maximumWidth"><number>380</number></property>
+             <layout class="QVBoxLayout" name="bookSideLayout">
+              <property name="leftMargin"><number>20</number></property>
+              <property name="topMargin"><number>18</number></property>
+              <property name="rightMargin"><number>20</number></property>
+              <property name="bottomMargin"><number>18</number></property>
+              <property name="spacing"><number>14</number></property>
+              <item>
+               <widget class="QLabel" name="bookSideTitle">
+                <property name="text"><string>Recent Trips</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="bookSideDivider">
+                <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                <property name="maximumHeight"><number>1</number></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="bookTripsList">
+                <property name="spacing"><number>3</number></property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+
+          </layout>
+         </widget>
+
+         <widget class="QWidget" name="pageTrips">
+          <layout class="QVBoxLayout" name="tripsPageLayout">
+           <property name="leftMargin"><number>28</number></property>
+           <property name="topMargin"><number>24</number></property>
+           <property name="rightMargin"><number>28</number></property>
+           <property name="bottomMargin"><number>24</number></property>
+           <property name="spacing"><number>16</number></property>
+           <item>
+            <widget class="QWidget" name="cardAllTrips">
+             <layout class="QVBoxLayout" name="allTripsLayout">
+              <property name="leftMargin"><number>20</number></property>
+              <property name="topMargin"><number>18</number></property>
+              <property name="rightMargin"><number>20</number></property>
+              <property name="bottomMargin"><number>18</number></property>
+              <property name="spacing"><number>14</number></property>
+              <item>
+               <widget class="QLabel" name="allTripsTitle">
+                <property name="text"><string>All Trips</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="allTripsSub">
+                <property name="text"><string>Complete history across all ride types.</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="allTripsDivider">
+                <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                <property name="maximumHeight"><number>1</number></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="allTripsList">
+                <property name="spacing"><number>3</number></property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+
+         <widget class="QWidget" name="pageDrivers">
+          <layout class="QVBoxLayout" name="driversPageLayout">
+           <property name="leftMargin"><number>28</number></property>
+           <property name="topMargin"><number>24</number></property>
+           <property name="rightMargin"><number>28</number></property>
+           <property name="bottomMargin"><number>24</number></property>
+           <property name="spacing"><number>16</number></property>
+           <item>
+            <widget class="QWidget" name="cardDrivers">
+             <layout class="QVBoxLayout" name="driversListLayout">
+              <property name="leftMargin"><number>20</number></property>
+              <property name="topMargin"><number>18</number></property>
+              <property name="rightMargin"><number>20</number></property>
+              <property name="bottomMargin"><number>18</number></property>
+              <property name="spacing"><number>14</number></property>
+              <item>
+               <widget class="QLabel" name="driversTitle">
+                <property name="text"><string>Drivers</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="driversDivider">
+                <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                <property name="maximumHeight"><number>1</number></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="driversList">
+                <property name="spacing"><number>3</number></property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+
+         <widget class="QWidget" name="pageRiders">
+          <layout class="QVBoxLayout" name="ridersPageLayout">
+           <property name="leftMargin"><number>28</number></property>
+           <property name="topMargin"><number>24</number></property>
+           <property name="rightMargin"><number>28</number></property>
+           <property name="bottomMargin"><number>24</number></property>
+           <property name="spacing"><number>16</number></property>
+           <item>
+            <widget class="QWidget" name="cardRiders">
+             <layout class="QVBoxLayout" name="ridersListLayout">
+              <property name="leftMargin"><number>20</number></property>
+              <property name="topMargin"><number>18</number></property>
+              <property name="rightMargin"><number>20</number></property>
+              <property name="bottomMargin"><number>18</number></property>
+              <property name="spacing"><number>14</number></property>
+              <item>
+               <widget class="QLabel" name="ridersTitle">
+                <property name="text"><string>Riders</string></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="ridersDivider">
+                <property name="frameShape"><enum>QFrame::HLine</enum></property>
+                <property name="frameShadow"><enum>QFrame::Plain</enum></property>
+                <property name="maximumHeight"><number>1</number></property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QListWidget" name="ridersList">
+                <property name="spacing"><number>3</number></property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+
+        </widget>
+       </item>
+
+      </layout>
+     </widget>
+    </item>
+
+   </layout>
+  </widget>
+ </widget>
+
+</ui>
