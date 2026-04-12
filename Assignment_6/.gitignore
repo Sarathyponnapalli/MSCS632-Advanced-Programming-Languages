@@ -6,6 +6,8 @@ java/out/
 
 # Generated output
 java/result_matrix.txt
+Go/result_matrix.txt
+Go/matrixmul.exe
 
 # Package files
 *.jar
