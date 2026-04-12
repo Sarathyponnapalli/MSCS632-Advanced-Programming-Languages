@@ -1,5 +1,6 @@
 package matrix;
 
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 /**
@@ -7,16 +8,23 @@ import java.util.logging.Logger;
  * computes the corresponding row of the result matrix, and stores it in
  * the ResultStore.
  *
+ * Concurrency technique demonstrated:
+ *   - ReentrantLock guards the per-worker statistics (tasksProcessed,
+ *     errorsEncountered) so they can be read safely from the main thread
+ *     after the executor shuts down.
+ *
  * Exception handling:
- *   - InterruptedException: restores the interrupt flag and exits cleanly.
- *   - Any runtime error during dot-product computation is caught so one bad
- *     task doesn't kill the whole worker thread.
+ *   - InterruptedException (getTask, Thread.sleep): interrupt flag is always
+ *     restored before exiting so the JVM can shut down cleanly.
+ *   - TaskProcessingException: thrown when computation or dimension mismatch
+ *     is detected; caught per-task so one failure does not kill the worker.
+ *   - Unexpected RuntimeException: also caught per-task and wrapped for logging.
  */
 public class MatrixWorker implements Runnable {
 
     private static final Logger LOGGER = Logger.getLogger(MatrixWorker.class.getName());
 
-    // Simulated processing delay range (ms) — represents computational work
+    // Simulated processing delay range (ms) - represents computational work
     private static final int MIN_DELAY_MS = 10;
     private static final int MAX_DELAY_MS = 50;
 
@@ -24,8 +32,9 @@ public class MatrixWorker implements Runnable {
     private final SharedTaskQueue taskQueue;
     private final ResultStore resultStore;
 
-    // Stats tracked per worker
-    private int tasksProcessed = 0;
+    // ReentrantLock protects the mutable stat counters
+    private final ReentrantLock statsLock = new ReentrantLock();
+    private int tasksProcessed    = 0;
     private int errorsEncountered = 0;
 
     public MatrixWorker(int workerId, SharedTaskQueue taskQueue, ResultStore resultStore) {
@@ -42,38 +51,54 @@ public class MatrixWorker implements Runnable {
         while (true) {
             MatrixTask task;
 
-            // ── Retrieve next task ────────────────────────────────────────────
+            // --- Retrieve next task from shared queue ---
             try {
                 task = taskQueue.getTask();
             } catch (InterruptedException e) {
-                // Restore the interrupted status and exit gracefully
+                // Always restore interrupted status so higher-level code can see it
                 Thread.currentThread().interrupt();
                 LOGGER.warning(String.format(
-                    "[Worker-%d] Interrupted while waiting for task. Exiting.", workerId));
+                    "[Worker-%d] Interrupted while waiting for a task. Exiting cleanly.", workerId));
                 break;
             }
 
-            // null is the shutdown signal (queue is drained and marked done)
+            // null == poison pill: queue is drained and marked done
             if (task == null) {
                 LOGGER.info(String.format(
-                    "[Worker-%d] No more tasks. Processed %d rows, %d error(s). Exiting.",
-                    workerId, tasksProcessed, errorsEncountered));
+                    "[Worker-%d] No more tasks. Processed %d row(s), %d error(s). Exiting.",
+                    workerId, getTasksProcessed(), getErrorsEncountered()));
                 break;
             }
 
-            // ── Process the task ─────────────────────────────────────────────
-            LOGGER.fine(() -> String.format("[Worker-%d] Processing %s", workerId, task));
+            // --- Process the task ---
+            LOGGER.info(String.format("[Worker-%d] Processing %s", workerId, task));
             try {
                 double[] resultRow = computeRow(task);
                 resultStore.storeRow(task.getRowIndex(), resultRow);
-                tasksProcessed++;
+                incrementProcessed();
+                LOGGER.info(String.format("[Worker-%d] Completed %s", workerId, task));
+
+            } catch (InterruptedException e) {
+                // Thread.sleep inside computeRow was interrupted - must restore flag
+                Thread.currentThread().interrupt();
+                incrementErrors();
+                LOGGER.warning(String.format(
+                    "[Worker-%d] Interrupted during computation of %s. Exiting.", workerId, task));
+                break;   // exit the loop; interrupt means shutdown is requested
+
+            } catch (TaskProcessingException e) {
+                // Known, typed failure - log with full context
+                incrementErrors();
+                LOGGER.severe(String.format(
+                    "[Worker-%d] TaskProcessingException: %s", workerId, e.getMessage()));
+                // Worker continues - one bad row does not stop the others
 
             } catch (Exception e) {
-                // Catches arithmetic errors, null dereference, etc.
-                errorsEncountered++;
+                // Unexpected error - wrap and log, then continue
+                incrementErrors();
                 LOGGER.severe(String.format(
-                    "[Worker-%d] ERROR processing %s: %s", workerId, task, e.getMessage()));
-                // Worker continues to next task — one bad task doesn't stop others
+                    "[Worker-%d] Unexpected error processing %s: %s [%s]",
+                    workerId, task, e.getMessage(), e.getClass().getSimpleName()));
             }
         }
 
@@ -81,18 +106,35 @@ public class MatrixWorker implements Runnable {
     }
 
     /**
-     * Compute one row of C = A × B.
+     * Compute one row of C = A x B.
      * Simulates processing delay to represent real computational work.
      *
      * @param task the row task
      * @return the computed row vector
-     * @throws InterruptedException if the simulated delay is interrupted
+     * @throws InterruptedException      if Thread.sleep is interrupted
+     * @throws TaskProcessingException   if matrix dimensions are inconsistent
      */
-    private double[] computeRow(MatrixTask task) throws InterruptedException {
+    private double[] computeRow(MatrixTask task)
+            throws InterruptedException, TaskProcessingException {
+
         double[]   rowA    = task.getRowA();
         double[][] matrixB = task.getMatrixB();
-        int        cols    = matrixB[0].length;
-        double[]   rowResult = new double[cols];
+
+        // Dimension guard - throw our custom exception for a bad task
+        if (rowA == null || matrixB == null || matrixB.length == 0) {
+            throw new TaskProcessingException(
+                task.getTaskId(), task.getRowIndex(),
+                "null or empty input data");
+        }
+        if (rowA.length != matrixB.length) {
+            throw new TaskProcessingException(
+                task.getTaskId(), task.getRowIndex(),
+                String.format("dimension mismatch: rowA.length=%d but matrixB.rows=%d",
+                    rowA.length, matrixB.length));
+        }
+
+        int      cols      = matrixB[0].length;
+        double[] rowResult = new double[cols];
 
         // Dot product: result[j] = sum(A[row][k] * B[k][j])
         for (int j = 0; j < cols; j++) {
@@ -103,15 +145,38 @@ public class MatrixWorker implements Runnable {
             rowResult[j] = sum;
         }
 
-        // Simulate processing delay
+        // Simulated processing delay - InterruptedException propagates to run()
         int delay = MIN_DELAY_MS + (int)(Math.random() * (MAX_DELAY_MS - MIN_DELAY_MS));
         Thread.sleep(delay);
 
         return rowResult;
     }
 
-    // ── Getters for reporting ─────────────────────────────────────────────────
-    public int getWorkerId()         { return workerId; }
-    public int getTasksProcessed()   { return tasksProcessed; }
-    public int getErrorsEncountered(){ return errorsEncountered; }
+    // --- Thread-safe stat helpers (ReentrantLock) ---
+
+    private void incrementProcessed() {
+        statsLock.lock();
+        try { tasksProcessed++; }
+        finally { statsLock.unlock(); }
+    }
+
+    private void incrementErrors() {
+        statsLock.lock();
+        try { errorsEncountered++; }
+        finally { statsLock.unlock(); }
+    }
+
+    public int getWorkerId() { return workerId; }
+
+    public int getTasksProcessed() {
+        statsLock.lock();
+        try { return tasksProcessed; }
+        finally { statsLock.unlock(); }
+    }
+
+    public int getErrorsEncountered() {
+        statsLock.lock();
+        try { return errorsEncountered; }
+        finally { statsLock.unlock(); }
+    }
 }

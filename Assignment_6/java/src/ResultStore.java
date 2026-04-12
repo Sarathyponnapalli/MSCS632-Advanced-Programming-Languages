@@ -26,7 +26,7 @@ public class ResultStore {
 
     /**
      * Store a computed row. Safe to call from multiple threads because each
-     * rowIndex is unique — no two workers receive the same row task.
+     * rowIndex is unique - no two workers receive the same row task.
      */
     public synchronized void storeRow(int rowIndex, double[] rowData) {
         result[rowIndex] = rowData;
