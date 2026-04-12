@@ -1,0 +1,36 @@
+# Java compiled classes
+*.class
+
+# Java build/output directories
+java/out/
+
+# Generated output
+java/result_matrix.txt
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# IDE files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.classpath
+.project
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
