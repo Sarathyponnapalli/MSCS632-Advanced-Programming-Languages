@@ -1,0 +1,57 @@
+# ============================================================
+#  .gitignore  -  MSCS632 Assignment 7
+#  Multi-Paradigm Statistics Calculator
+# ============================================================
+
+# ── C build artifacts ─────────────────────────────────────
+C/*.exe
+C/*.o
+C/*.obj
+C/*.pdb
+C/*.ilk
+C/*.exp
+C/*.lib
+
+# ── OCaml build artifacts ─────────────────────────────────
+OCaml/*.cmo
+OCaml/*.cmi
+OCaml/*.cmx
+OCaml/*.cma
+OCaml/*.cmxa
+OCaml/*.a
+OCaml/*.o
+OCaml/*.byte
+OCaml/*.native
+
+# ── Python artifacts ──────────────────────────────────────
+Python/__pycache__/
+Python/*.pyc
+Python/*.pyo
+Python/*.pyd
+Python/.pytest_cache/
+
+# ── Output text files (generated at runtime by .bat) ──────
+# Comment these out if you want to commit sample output
+C/output_c.txt
+OCaml/output_ocaml.txt
+Python/output_python.txt
+
+# ── VS Code ───────────────────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ── Windows OS files ──────────────────────────────────────
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ── macOS (if collaborating) ──────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ── Editor temp files ─────────────────────────────────────
+*.swp
+*.swo
+*~
+*.bak
